@@ -50,6 +50,7 @@ plt.scatter(train_x, train_y)
 plt.plot(x, mymodel)
 plt.show()
 
+
+'''
 plt.savefig(sys.stdout.buffer)
 sys.stdout.flush()
-'''
