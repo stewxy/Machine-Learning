@@ -5,9 +5,48 @@ from numpy import random
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 numpy.random.seed(2)
+import datetime
+import pandas as pd
+import pandas_datareader as web 
 
 from scipy import stats
 
+import yfinance as yf 
+import seaborn as sns
+
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+from statsmodels.tsa.arima.model import ARIMA
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
+
+
+crypto = 'BTC'
+against_crypto = 'USD'
+start = datetime.date(2018, 1, 1)
+end = datetime.date.today()
+
+btc = yf.download(f'{crypto}-{against_crypto}', start=start, end=end)
+
+
+btc = btc['Close']
+
+btc.to_csv("btc.csv")
+
+btc = pd.read_csv("btc.csv")
+
+
+btc.index = pd.to_datetime(btc['Date'], format='%Y-%m-%d')
+del btc['Date']
+
+print(btc.head())
+sns.set()
+plt.ylabel('BTC Price')
+plt.xlabel('Date')
+plt.xticks(rotation=45)
+plt.plot(btc.index, btc)
+plt.show()
+
+'''
 x = [1,2,3,4,5,6,7,8,9,10]
 y = [10,15,20,25,30,25,30,35,40,50]
 
@@ -19,7 +58,7 @@ plt.scatter(x, y)
 plt.plot(myline, mymodel(myline))
 plt.show()
 
-'''
+
 #training and testing data, train 80%, test 20%
 train_x = x[:80]
 train_y = y[:80]
