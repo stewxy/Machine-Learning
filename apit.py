@@ -1,6 +1,7 @@
 import requests
 import json
 
+'''
 response = requests.get("https://cat-fact.herokuapp.com/facts")
 print(response.status_code)
 print(response.json())
@@ -12,6 +13,7 @@ def jprint(obj):
 jprint(response.json())
 
 #print([item for item in response.json() if item["_id"] == "58e00b5f0aac31001185ed24"])
+'''
 
 '''
 allText=[]
@@ -23,3 +25,6 @@ print(allText)
 for i in response.json():
     print(i["text"])
 '''
+
+response = requests.get("https://partner.steam-api.com/ISteamEconomy/GetMarketPrices/v1/")
+print(response.status_code)

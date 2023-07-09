@@ -38,12 +38,17 @@ btc = pd.read_csv("btc.csv")
 btc.index = pd.to_datetime(btc['Date'], format='%Y-%m-%d')
 del btc['Date']
 
+train = btc[btc.index < pd.to_datetime("2022-11-01", format='%Y-%m-%d')]
+test = btc[btc.index > pd.to_datetime("2022-11-01", format='%Y-%m-%d')]
+
 print(btc.head())
 sns.set()
 plt.ylabel('BTC Price')
 plt.xlabel('Date')
 plt.xticks(rotation=45)
-plt.plot(btc.index, btc)
+plt.plot(train, color='black')
+plt.plot(test, color='red')
+#plt.plot(btc.index, btc)
 plt.show()
 
 '''
