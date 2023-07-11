@@ -16,6 +16,7 @@ import seaborn as sns
 
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from statsmodels.tsa.arima.model import ARIMA
+#from statsmodels.tsa.arima_model import ARMA
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
 
@@ -40,6 +41,12 @@ del btc['Date']
 
 train = btc[btc.index < pd.to_datetime("2022-11-01", format='%Y-%m-%d')]
 test = btc[btc.index > pd.to_datetime("2022-11-01", format='%Y-%m-%d')]
+
+#model
+model=SARIMAX(train, order=(1, 0, 1))
+#fit model
+model_fit = model.fit()
+print("*******MODEL FIT*******", model_fit.summary())
 
 print(btc.head())
 sns.set()
