@@ -2,9 +2,9 @@ import sys
 import matplotlib
 import numpy
 from numpy import random
+numpy.random.seed(2)
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
-numpy.random.seed(2)
 import datetime
 import pandas as pd
 import pandas_datareader as web 
@@ -42,16 +42,19 @@ del btc['Date']
 train = btc[btc.index < pd.to_datetime("2022-11-01", format='%Y-%m-%d')]
 test = btc[btc.index > pd.to_datetime("2022-11-01", format='%Y-%m-%d')]
 
-#model
+#model, 
+#(p: number of autoregressive terms(AR order), d:number of nonseasonal differences(differencing order), q:number of moving-average terms(MA order))
 model=SARIMAX(train, order=(1, 0, 1))
 #fit model
 model_fit = model.fit()
 print("*******MODEL FIT*******", model_fit.summary())
 
-print(btc.head())
-sns.set()
+print("*******Head*******", btc.head())
+#sns.set()
+#graph labels
 plt.ylabel('BTC Price')
 plt.xlabel('Date')
+#styling
 plt.xticks(rotation=45)
 plt.plot(train, color='black')
 plt.plot(test, color='red')
