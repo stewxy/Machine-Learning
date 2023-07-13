@@ -56,10 +56,13 @@ pred_end_date = test.index[-1]
 
 predictions = model_fit.predict(start=pred_start_date, end=pred_end_date)
 residuals = test-predictions
-plt.figure(figsize=(10,4))
-plt.plot(residuals)
+print("============",residuals)
 
-'''
+plt.figure(figsize=(10,4))
+#plt.plot(residuals)
+plt.plot(predictions)
+
+
 #sns.set()
 #graph labels
 plt.ylabel('BTC Price')
@@ -69,7 +72,7 @@ plt.xticks(rotation=45)
 plt.plot(train, color='black')
 plt.plot(test, color='red')
 #plt.plot(btc.index, btc)
-'''
+
 plt.show()
 
 '''
