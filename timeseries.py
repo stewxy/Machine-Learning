@@ -52,21 +52,26 @@ print("*******MODEL FIT*******", model_fit.summary())
 
 print("*******Head*******", btc.head())
 
+#Predictions
 pred_start_date = test.index[0]
 pred_end_date = test.index[-1]
 
-
-'''
 predictions = model_fit.predict(start=pred_start_date, end=pred_end_date)
 residuals = test-predictions
 #print("============",residuals)
 #print("============",predictions)
+#plt.plot(residuals)
+
+#Calculating RMSE, higher number = worse
+arma_rmse = numpy.sqrt(mean_squared_error(test.values, predictions))
+print("RMSE: ",arma_rmse)
+
 
 plt.figure(figsize=(10,4))
-#plt.plot(residuals)
-plt.plot(predictions, color="green", label="Predictions")
-'''
 
+plt.plot(predictions, color="green", label="Predictions")
+
+'''
 pred = model_fit.get_forecast(len(test.index))
 predictions = pred.conf_int(alpha = 0.05) 
 predictions["p"] = model_fit.predict(start=pred_start_date, end=pred_end_date)
@@ -74,16 +79,13 @@ predictions["p"] = model_fit.predict(start=pred_start_date, end=pred_end_date)
 #print("============",residuals)
 
 
-#arma_rmse = numpy.sqrt(mean_squared_error(test.values, predictions["p"]))
-#print("RMSE: ",arma_rmse)
-
-
 predout = predictions["p"] 
 print("==========", predout)
 
-plt.figure(figsize=(10,4))
 #plt.plot(residuals)
 plt.plot(predout, color="green", label="Predictions")
+'''
+
 
 plt.legend()
 
