@@ -2,6 +2,7 @@ import sys
 import matplotlib
 import numpy
 from numpy import random
+from sklearn.metrics import mean_squared_error
 numpy.random.seed(2)
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
@@ -54,13 +55,37 @@ print("*******Head*******", btc.head())
 pred_start_date = test.index[0]
 pred_end_date = test.index[-1]
 
+
+
 predictions = model_fit.predict(start=pred_start_date, end=pred_end_date)
 residuals = test-predictions
-print("============",residuals)
+#print("============",residuals)
+#print("============",predictions)
 
 plt.figure(figsize=(10,4))
 #plt.plot(residuals)
-plt.plot(predictions)
+plt.plot(predictions, color="green", label="Predictions")
+
+'''
+pred = model_fit.get_forecast(len(test.index))
+predictions = pred.conf_int(alpha = 0.05) 
+predictions["p"] = model_fit.predict(start=pred_start_date, end=pred_end_date)
+#residuals = test-predictions
+#print("============",residuals)
+
+
+arma_rmse = numpy.sqrt(mean_squared_error(test.values, predictions["p"]))
+print("RMSE: ",arma_rmse)
+
+
+predout = predictions["p"] 
+print("==========", predout)
+
+plt.figure(figsize=(10,4))
+#plt.plot(residuals)
+plt.plot(predout, color="green", label="Predictions")
+'''
+plt.legend()
 
 
 #sns.set()
@@ -69,8 +94,8 @@ plt.ylabel('BTC Price')
 plt.xlabel('Date')
 #styling
 plt.xticks(rotation=45)
-plt.plot(train, color='black')
-plt.plot(test, color='red')
+plt.plot(train, color='black', label="Training")
+plt.plot(test, color='red', label="Testing")
 #plt.plot(btc.index, btc)
 
 plt.show()
