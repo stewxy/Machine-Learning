@@ -44,12 +44,22 @@ test = btc[btc.index > pd.to_datetime("2022-11-01", format='%Y-%m-%d')]
 
 #model, 
 #(p: number of autoregressive terms(AR order), d:number of nonseasonal differences(differencing order), q:number of moving-average terms(MA order))
-model=SARIMAX(train, order=(1, 0, 1))
+model=SARIMAX(train, order=(4, 0, 1))
 #fit model
 model_fit = model.fit()
 print("*******MODEL FIT*******", model_fit.summary())
 
 print("*******Head*******", btc.head())
+
+pred_start_date = test.index[0]
+pred_end_date = test.index[-1]
+
+predictions = model_fit.predict(start=pred_start_date, end=pred_end_date)
+residuals = test-predictions
+plt.figure(figsize=(10,4))
+plt.plot(residuals)
+
+'''
 #sns.set()
 #graph labels
 plt.ylabel('BTC Price')
@@ -59,6 +69,7 @@ plt.xticks(rotation=45)
 plt.plot(train, color='black')
 plt.plot(test, color='red')
 #plt.plot(btc.index, btc)
+'''
 plt.show()
 
 '''
