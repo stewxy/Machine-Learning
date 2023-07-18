@@ -42,10 +42,11 @@ del btc['Date']
 
 train = btc[btc.index < pd.to_datetime("2022-11-01", format='%Y-%m-%d')]
 test = btc[btc.index > pd.to_datetime("2022-11-01", format='%Y-%m-%d')]
-
+plt.figure(figsize=(10,4))
+#=========================ARMA=========================
 #model, 
 #(p: number of autoregressive terms(AR order), d:number of nonseasonal differences(differencing order), q:number of moving-average terms(MA order))
-model=SARIMAX(train, order=(4, 0, 1))
+model=SARIMAX(train, order=(1, 0, 1)) #What does changing order values do?
 #fit model
 model_fit = model.fit()
 print("*******MODEL FIT*******", model_fit.summary())
@@ -58,18 +59,24 @@ pred_end_date = test.index[-1]
 
 predictions = model_fit.predict(start=pred_start_date, end=pred_end_date)
 residuals = test-predictions
-#print("============",residuals)
-#print("============",predictions)
+#print("*************",residuals)
+#print("*************",predictions)
 #plt.plot(residuals)
 
-#Calculating RMSE, higher number = worse
-arma_rmse = numpy.sqrt(mean_squared_error(test.values, predictions))
-print("RMSE: ",arma_rmse)
+#Calculating Root Mean Square Error(RMSE) of testing data compared to predictions, higher number = worse
+arma_rmse = numpy.sqrt(mean_squared_error(test, predictions))
+print("ARMA RMSE: ",arma_rmse)
+plt.plot(predictions, color="green", label="ARMA Predictions")
+#=========================ARIMA=========================
+ARIMAmodel = SARIMAX(train, order=(2,2,2))
+ARIMAmodel_fit = ARIMAmodel.fit()
+ARIMApredictions = ARIMAmodel_fit.predict(start=pred_start_date, end=pred_end_date)
 
+arima_rmse = numpy.sqrt(mean_squared_error(test, ARIMApredictions))
+print("ARIMA RMSE: ",arima_rmse)
 
-plt.figure(figsize=(10,4))
+plt.plot(ARIMApredictions, color="orange", label="ARIMA Predictions")
 
-plt.plot(predictions, color="green", label="Predictions")
 
 '''
 pred = model_fit.get_forecast(len(test.index))
@@ -85,7 +92,7 @@ print("==========", predout)
 #plt.plot(residuals)
 plt.plot(predout, color="green", label="Predictions")
 '''
-
+#plt.axhline(20000, color="r", linestyle="--", alpha=0.5)
 
 plt.legend()
 
