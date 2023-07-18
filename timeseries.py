@@ -77,6 +77,14 @@ print("ARIMA RMSE: ",arima_rmse)
 
 plt.plot(ARIMApredictions, color="orange", label="ARIMA Predictions")
 
+'''
+#=========================SARIMA=========================
+SARIMAmodel = SARIMAX(train, order=(5,4,2), seasonal_order=(2,2,2,12))
+SARIMAmodel_fit = SARIMAmodel.fit()
+SARIMApredictions = SARIMAmodel_fit.predict(start=pred_start_date, end=pred_end_date)
+
+plt.plot(SARIMApredictions, color="red", label="SARIMA Predictions")
+'''
 
 '''
 pred = model_fit.get_forecast(len(test.index))
