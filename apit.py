@@ -25,6 +25,3 @@ print(allText)
 for i in response.json():
     print(i["text"])
 '''
-
-response = requests.get("https://partner.steam-api.com/ISteamEconomy/GetMarketPrices/v1/")
-print(response.status_code)
