@@ -25,6 +25,7 @@ crypto = 'BTC'
 against_crypto = 'USD'
 start = datetime.date(2018, 1, 1)
 end = datetime.date.today()
+#end = datetime.date.today()
 
 btc = yf.download(f'{crypto}-{against_crypto}', start=start, end=end)
 btc = btc['Close']
@@ -34,7 +35,7 @@ btc.index = pd.to_datetime(btc['Date'], format='%Y-%m-%d')
 del btc['Date']
 
 train = btc[btc.index < pd.to_datetime("2022-11-01", format='%Y-%m-%d')]
-test = btc[btc.index > pd.to_datetime("2022-11-01", format='%Y-%m-%d')]
+test = btc[btc.index > pd.to_datetime("2022-11-01", format='%Y-%m-%d') ]
 plt.figure(figsize=(10,4))
 
 #Prediction data
@@ -51,13 +52,14 @@ model_fit = ARMAmodel.fit()
 
 ARMApredictions = model_fit.predict(start=pred_start_date, end=pred_end_date)
 
+
 #residuals = test-predictions
 #print("*************",residuals)
 #print("*************",predictions)
 #plt.plot(residuals)
 
 #Calculating Root Mean Square Error(RMSE) of testing data compared to predictions, higher number = worse
-arma_rmse = numpy.sqrt(mean_squared_error(test, ARMApredictions[:-1]))
+arma_rmse = numpy.sqrt(mean_squared_error(test, ARMApredictions))
 print("ARMA RMSE: ",arma_rmse)
 plt.plot(ARMApredictions, color="green", label="ARMA Predictions")
 #=========================ARIMA=========================
