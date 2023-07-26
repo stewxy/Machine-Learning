@@ -1,4 +1,4 @@
-# Machine-Learning
+# Machine Learning
 Stationary Data  
 ACF(Auto Correlation Function)  
 PACF(Partial Correlation Function)  
