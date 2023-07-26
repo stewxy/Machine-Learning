@@ -24,7 +24,7 @@ pd.set_option('display.max_rows', None)
 crypto = 'BTC'
 against_crypto = 'USD'
 start = datetime.date(2018, 1, 1)
-end = datetime.date.today()
+end = datetime.date(2023,7,23)
 #end = datetime.date.today()
 
 btc = yf.download(f'{crypto}-{against_crypto}', start=start, end=end)
