@@ -47,11 +47,11 @@ ARMAmodel=SARIMAX(train, order=(1, 0, 1))
 model_fit = ARMAmodel.fit()
 
 ARMApredictions = model_fit.predict(start=pred_start_date, end=pred_end_date)
-'''
-residuals = test-predictions
-print("**********RESIDUALS**********",residuals)
-plt.plot(residuals)
-'''
+
+#residuals = test-predictions
+#print("**********RESIDUALS**********",residuals)
+#plt.plot(residuals)
+
 #RMSE(Root Mean Square Error) of testing data compared to predictions, higher number = worse
 arma_rmse = numpy.sqrt(mean_squared_error(test, ARMApredictions))
 print("ARMA RMSE: ",arma_rmse)
@@ -67,14 +67,13 @@ print("ARIMA RMSE: ",arima_rmse)
 
 plt.plot(ARIMApredictions, color="orange", label="ARIMA Predictions")
 
-'''
 #=========================SARIMA=========================
-SARIMAmodel = SARIMAX(train, order=(5,4,2), seasonal_order=(2,2,2,12))
+SARIMAmodel = SARIMAX(train, order=(1,1,1), seasonal_order=(1,1,1,12))
 SARIMAmodel_fit = SARIMAmodel.fit()
 SARIMApredictions = SARIMAmodel_fit.predict(start=pred_start_date, end=pred_end_date)
 
-plt.plot(SARIMApredictions, color="red", label="SARIMA Predictions")
-'''
+plt.plot(SARIMApredictions, color="purple", label="SARIMA Predictions")
+
 
 '''
 pred = model_fit.get_forecast(len(test.index))
