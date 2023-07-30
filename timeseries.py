@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import datetime
 import pandas as pd
 import pandas_datareader as web 
+import statistics
 
 from scipy import stats
 
@@ -47,10 +48,13 @@ x = test.values
 split = round(len(test.values)/2)
 x1, x2 = x[0:split], x[split:]
 mean1, mean2 = x1.mean(), x2.mean()
-var1, var2 = x1.var(), x2.var()
+#var1, var2 = x1.var(), x2.var() #Population variance
+var1, var2 = statistics.variance(x1.flatten()), statistics.variance(x2.flatten()) #Sample variance
 print("Mean 1=%f, Mean 2=%f" % (mean1, mean2))
-print("Variance 1=%f, Variance 2=%f" % (var1, var2))
+print("Variance 1=%f, Variance 2=%f" % (var1, var2)) 
+print("Difference 1=%f, Difference 2=%f" % (var1-mean1, var2-mean2))
 
+'''
 #=========================ARMA=========================
 #model(p: number of autoregressive terms(AR order), d:number of nonseasonal differences(differencing order), q:number of moving-average terms(MA order))
 ARMAmodel=SARIMAX(train, order=(1, 0, 1))
@@ -86,6 +90,8 @@ sarima_rmse = numpy.sqrt(mean_squared_error(test, SARIMApredictions))
 print("SARIMA RMSE: ",sarima_rmse) 
 
 plt.plot(SARIMApredictions, color="purple", label="SARIMA Predictions")
+'''
+
 
 
 '''
