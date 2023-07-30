@@ -15,6 +15,7 @@ from scipy import stats
 
 import yfinance as yf 
 import seaborn as sns
+from statsmodels.tsa.stattools import adfuller
 
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from statsmodels.tsa.arima.model import ARIMA
@@ -40,11 +41,13 @@ plt.figure(figsize=(10,4))
 
 #Prediction data
 pred_start_date = test.index[0]
-pred_end_date = test.index[-1]\
+pred_end_date = test.index[-1]
 
 #==================Test Stationarity==================
-#Difference in Mean and Variance determines whether or not the data is Stationary
 x = test.values
+
+#Summary Statistic Checks
+#Difference in Mean and Variance determines whether or not the data is Stationary
 split = round(len(test.values)/2)
 x1, x2 = x[0:split], x[split:]
 mean1, mean2 = x1.mean(), x2.mean()
@@ -53,6 +56,17 @@ var1, var2 = statistics.variance(x1.flatten()), statistics.variance(x2.flatten()
 print("Mean 1=%f, Mean 2=%f" % (mean1, mean2))
 print("Variance 1=%f, Variance 2=%f" % (var1, var2)) 
 print("Difference 1=%f, Difference 2=%f" % (var1-mean1, var2-mean2))
+
+#Statistical Test Checks
+#Augmented Dickey-Fuller Test
+#p-value > 0.05, null hypothesis(H0), has root unit, not stationary // p-value <= 0.05, alternate hypothesis(H1), no root unit, stationary
+
+result=adfuller(x)
+print("ADF statistics: %f" % result[0])
+print("p-value: %f" % result[1])
+print("Critical values:")
+for key,value in result[4].items():
+    print("\t%s: %f" % (key, value))
 
 '''
 #=========================ARMA=========================
@@ -91,7 +105,6 @@ print("SARIMA RMSE: ",sarima_rmse)
 
 plt.plot(SARIMApredictions, color="purple", label="SARIMA Predictions")
 '''
-
 
 
 '''
