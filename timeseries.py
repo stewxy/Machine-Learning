@@ -66,7 +66,7 @@ print("ADF statistics: %f" % result[0])
 print("p-value: %f" % result[1])
 print("Critical values:")
 for key,value in result[4].items():
-    print("\t%s: %f" % (key, value))
+    print("\t%s: %f" % (key, value)) 
 
 '''
 #=========================ARMA=========================
