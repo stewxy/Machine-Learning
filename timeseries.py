@@ -73,7 +73,7 @@ SARIMAmodel_fit = SARIMAmodel.fit()
 SARIMApredictions = SARIMAmodel_fit.predict(start=pred_start_date, end=pred_end_date)
 
 sarima_rmse = numpy.sqrt(mean_squared_error(test, SARIMApredictions))
-print("SARIMA RMSE: ",sarima_rmse)
+print("SARIMA RMSE: ",sarima_rmse) 
 
 plt.plot(SARIMApredictions, color="purple", label="SARIMA Predictions")
 
