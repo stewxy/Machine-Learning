@@ -1,7 +1,8 @@
 # Machine Learning
 Stationary Data
 - Mean  
-- Variance  
+- Variance
+
 ACF(Auto Correlation Function)  
 PACF(Partial Correlation Function)  
 RMSE(Root Mean Square Error)  
