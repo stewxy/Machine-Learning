@@ -60,14 +60,18 @@ print("Difference 1=%f, Difference 2=%f" % (var1-mean1, var2-mean2))
 
 #Statistical Test Checks
 #Augmented Dickey-Fuller Test
-#p-value > 0.05, null hypothesis(H0), has root unit, not stationary // p-value <= 0.05, alternate hypothesis(H1), no root unit, stationary
+#p-value > 0.05, fail to reject hypothesis(H0), has root unit, not stationary // p-value <= 0.05 (and statistic < critical values), reject null hypothesis(H0), no root unit, stationary
 result=adfuller(x)
 print(f"ADF statistics: {result[0]}")
 print(f"p-value: {result[1]}")
 print("Critical values:")
+check=False
 for keyADF,cvalueADF in result[4].items():
     print(f'    {keyADF}, {cvalueADF}')
-print(f'Result: The series is {"not " if result[1] > 0.05 else ""}stationary')
+    if(result[0] < cvalueADF):
+        check = True
+print(f'Result: The series is {"not " if result[1] > 0.05 and check==False else ""}stationary')
+#print(f'Result: The series is {"not " if result[1] > 0.05 else ""}stationary')
 
 #Kwiatkowski-Phillips-Schmidt-Shin Test
 #If stationary with (regression='ct') and not stationary with ADF, data is stationary with a deterministic trend
