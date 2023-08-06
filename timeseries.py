@@ -70,7 +70,8 @@ for keyADF,cvalueADF in result[4].items():
 print(f'Result: The series is {"not " if result[1] > 0.05 else ""}stationary')
 
 #Kwiatkowski-Phillips-Schmidt-Shin Test
-statistic, p_value, n_lags, critical_values = kpss(x)
+#If stationary with (regression='ct') and not stationary with ADF, data is stationary with a deterministic trend
+statistic, p_value, n_lags, critical_values = kpss(x) #, regression='ct'
 print(f'KPSS Statistic: {statistic}')
 print(f'p-value: {p_value}')
 print(f'num lags: {n_lags}')
@@ -78,7 +79,6 @@ print('Critial Values:')
 for keyKPSS, cvalueKPSS in critical_values.items():
     print(f'   {keyKPSS} : {cvalueKPSS}')
 print(f'Result: The series is {"not " if p_value < 0.05 else ""}stationary')
-
 
 '''
 #=========================ARMA=========================
