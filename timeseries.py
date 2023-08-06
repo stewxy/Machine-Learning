@@ -15,7 +15,7 @@ from scipy import stats
 
 import yfinance as yf 
 import seaborn as sns
-from statsmodels.tsa.stattools import adfuller
+from statsmodels.tsa.stattools import adfuller, kpss
 
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from statsmodels.tsa.arima.model import ARIMA
@@ -57,16 +57,28 @@ print("Mean 1=%f, Mean 2=%f" % (mean1, mean2))
 print("Variance 1=%f, Variance 2=%f" % (var1, var2)) 
 print("Difference 1=%f, Difference 2=%f" % (var1-mean1, var2-mean2))
 
+
 #Statistical Test Checks
 #Augmented Dickey-Fuller Test
 #p-value > 0.05, null hypothesis(H0), has root unit, not stationary // p-value <= 0.05, alternate hypothesis(H1), no root unit, stationary
-
 result=adfuller(x)
-print("ADF statistics: %f" % result[0])
-print("p-value: %f" % result[1])
+print(f"ADF statistics: {result[0]}")
+print(f"p-value: {result[1]}")
 print("Critical values:")
-for key,value in result[4].items():
-    print("\t%s: %f" % (key, value)) 
+for keyADF,cvalueADF in result[4].items():
+    print(f'    {keyADF}, {cvalueADF}')
+print(f'Result: The series is {"not " if result[1] > 0.05 else ""}stationary')
+
+#Kwiatkowski-Phillips-Schmidt-Shin Test
+statistic, p_value, n_lags, critical_values = kpss(x)
+print(f'KPSS Statistic: {statistic}')
+print(f'p-value: {p_value}')
+print(f'num lags: {n_lags}')
+print('Critial Values:')
+for keyKPSS, cvalueKPSS in critical_values.items():
+    print(f'   {keyKPSS} : {cvalueKPSS}')
+print(f'Result: The series is {"not " if p_value < 0.05 else ""}stationary')
+
 
 '''
 #=========================ARMA=========================
