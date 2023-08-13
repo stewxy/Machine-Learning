@@ -16,6 +16,7 @@ from scipy import stats
 import yfinance as yf 
 import seaborn as sns
 from statsmodels.tsa.stattools import adfuller, kpss
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from statsmodels.tsa.arima.model import ARIMA
@@ -37,15 +38,15 @@ del btc['Date']
 
 train = btc[btc.index < pd.to_datetime("2022-11-01", format='%Y-%m-%d')]
 test = btc[btc.index > pd.to_datetime("2022-11-01", format='%Y-%m-%d') ]
-plt.figure(figsize=(10,4))
+#plt.figure(figsize=(10,4))
 
 #Prediction data
 pred_start_date = test.index[0]
 pred_end_date = test.index[-1]
 
-#==================Test Stationarity==================
 x = test.values
-
+'''
+#==================Test Stationarity==================
 #Summary Statistic Checks
 #Difference in Mean and Variance determines whether or not the data is Stationary
 split = round(len(test.values)/2)
@@ -83,6 +84,16 @@ print('Critial Values:')
 for keyKPSS, cvalueKPSS in critical_values.items():
     print(f'   {keyKPSS} : {cvalueKPSS}')
 print(f'Result: The series is {"not " if p_value < 0.05 else ""}stationary')
+'''
+#======================ACF & PACF======================
+#ACF and PACF help find p and q values
+plt.figure(figsize=(10,7))
+plt.subplot(2,1,1)
+plot_acf(x, ax=plt.gca())
+plt.subplot(2,1,2)
+plot_pacf(x, ax=plt.gca())
+plt.show()
+
 
 '''
 #=========================ARMA=========================
@@ -135,16 +146,18 @@ plt.plot(predout, color="green", label="Predictions")
 '''
 #plt.axhline(20000, color="r", linestyle="--", alpha=0.5)
 
-#Graph Labels
+#Graph Plot
+plt.figure(figsize=(10,4))
+plt.plot(train, color='black', label="Training")
+plt.plot(test, color='red', label="Testing")
 plt.legend()
 plt.ylabel('BTC Price')
 plt.xlabel('Date')
-
-#Styling
 plt.xticks(rotation=45)
-plt.plot(train, color='black', label="Training")
-plt.plot(test, color='red', label="Testing")
-
+plt.savefig('BTC Graph')
 plt.show()
+
+
+
 plt.savefig(sys.stdout.buffer)
 sys.stdout.flush()
