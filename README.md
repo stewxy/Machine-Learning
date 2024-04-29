@@ -1,4 +1,4 @@
-# Machine Learning
+# Time-Series Forecasting
 Stationary Data
 - Mean  
 - Variance
@@ -13,9 +13,9 @@ RMSE(Root Mean Square Error)
 - MA(Moving Average)
 
 **ARIMA(Auto-Regressive Integrated Moving Average)**  
--  a
+-  _
 
 **SARIMA(Seasonal Auto-Regressive Integrated Moving Average)**  
--  a  
+-  _
 
 ## Limitations
