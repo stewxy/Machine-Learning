@@ -1,4 +1,7 @@
 # Time-Series Forecasting
+
+_Note: This project was created with the intention of self-learning machine-learning concepts._
+
 Stationary Data
 - Mean  
 - Variance
